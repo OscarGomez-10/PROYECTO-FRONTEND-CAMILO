@@ -80,7 +80,7 @@ const actividades = [
         tiempo: "Hace 30 minutos",
         puntos: 5,
         bgColor: "bg-success",
-        icono: "bi bi-person-arms-up",
+        icono: "bi bi-arrow-up-right", // Icono alternativo
     },
     {
         nombre: "Caminata Corta",
@@ -94,7 +94,7 @@ const actividades = [
         tiempo: "Hace 2 horas",
         puntos: 5,
         bgColor: "bg-info",
-        icono: "bi bi-wind",
+        icono: "bi bi-cloud", // Icono alternativo
     },
     {
         nombre: "Café Gratis Canjeado",
