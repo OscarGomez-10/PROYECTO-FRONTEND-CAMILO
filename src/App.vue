@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue';
+import { Collapse } from 'bootstrap';
+
 // Componentes de usuario
 import ActivityUser from './components/user/ActivityUser.vue';
 import DashboardUser from './components/user/DashboardUser.vue';
@@ -17,10 +19,25 @@ import ConfiguracionAdmin from "./components/admin/configuracionAdmin.vue";
 // Estado de la aplicación
 const currentView = ref("dashboard");
 const isAdmin = ref(true);
+const navbarCollapse = ref(null);
 
 const toggleUserType = () => {
   isAdmin.value = !isAdmin.value;
   currentView.value = "dashboard";
+  closeNavbar();
+};
+
+const closeNavbar = () => {
+  if (navbarCollapse.value) {
+    const bsCollapse = Collapse.getInstance(navbarCollapse.value) ||
+      new Collapse(navbarCollapse.value, { toggle: false });
+    bsCollapse.hide();
+  }
+};
+
+const changeView = (view) => {
+  currentView.value = view;
+  closeNavbar();
 };
 </script>
 
@@ -42,38 +59,38 @@ const toggleUserType = () => {
         </button>
 
         <!-- Contenido del navbar -->
-        <div class="collapse navbar-collapse" id="mainNavbar">
+        <div class="collapse navbar-collapse" id="mainNavbar" ref="navbarCollapse">
           <!-- Menú principal -->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <!-- Menú Admin -->
             <template v-if="isAdmin">
               <li class="nav-item">
                 <button class="btn btn-pine mx-1 my-1" :class="{ 'active': currentView === 'dashboard' }"
-                  @click="currentView = 'dashboard'">
+                  @click="changeView('dashboard')">
                   <i class="bi bi-house me-1"></i> Dashboard
                 </button>
               </li>
               <li class="nav-item">
                 <button class="btn btn-pine mx-1 my-1" :class="{ 'active': currentView === 'empleados' }"
-                  @click="currentView = 'empleados'">
+                  @click="changeView('empleados')">
                   <i class="bi bi-people me-1"></i> Empleados
                 </button>
               </li>
               <li class="nav-item">
                 <button class="btn btn-pine mx-1 my-1" :class="{ 'active': currentView === 'acciones' }"
-                  @click="currentView = 'acciones'">
+                  @click="changeView('acciones')">
                   <i class="bi bi-bullseye me-1"></i> Acciones
                 </button>
               </li>
               <li class="nav-item">
                 <button class="btn btn-pine mx-1 my-1" :class="{ 'active': currentView === 'reportes' }"
-                  @click="currentView = 'reportes'">
+                  @click="changeView('reportes')">
                   <i class="bi bi-bar-chart me-1"></i> Reportes
                 </button>
               </li>
               <li class="nav-item">
                 <button class="btn btn-pine mx-1 my-1" :class="{ 'active': currentView === 'configuracion' }"
-                  @click="currentView = 'configuracion'">
+                  @click="changeView('configuracion')">
                   <i class="bi bi-gear me-1"></i> Configuración
                 </button>
               </li>
@@ -83,31 +100,31 @@ const toggleUserType = () => {
             <template v-else>
               <li class="nav-item">
                 <button class="btn btn-pine mx-1 my-1" :class="{ 'active': currentView === 'dashboard' }"
-                  @click="currentView = 'dashboard'">
+                  @click="changeView('dashboard')">
                   <i class="bi bi-house me-1"></i> Dashboard
                 </button>
               </li>
               <li class="nav-item">
                 <button class="btn btn-pine mx-1 my-1" :class="{ 'active': currentView === 'actividad' }"
-                  @click="currentView = 'actividad'">
+                  @click="changeView('actividad')">
                   <i class="bi bi-activity me-1"></i> Actividad
                 </button>
               </li>
               <li class="nav-item">
                 <button class="btn btn-pine mx-1 my-1" :class="{ 'active': currentView === 'salud' }"
-                  @click="currentView = 'salud'">
+                  @click="changeView('salud')">
                   <i class="bi bi-heart-pulse me-1"></i> Salud
                 </button>
               </li>
               <li class="nav-item">
                 <button class="btn btn-pine mx-1 my-1" :class="{ 'active': currentView === 'recompensas' }"
-                  @click="currentView = 'recompensas'">
+                  @click="changeView('recompensas')">
                   <i class="bi bi-award me-1"></i> Recompensas
                 </button>
               </li>
               <li class="nav-item">
                 <button class="btn btn-pine mx-1 my-1" :class="{ 'active': currentView === 'recomendaciones' }"
-                  @click="currentView = 'recomendaciones'">
+                  @click="changeView('recomendaciones')">
                   <i class="bi bi-lightbulb me-1"></i> Recomendaciones
                 </button>
               </li>
@@ -116,8 +133,6 @@ const toggleUserType = () => {
 
           <!-- Controles del usuario -->
           <div class="d-flex align-items-center ms-auto">
-
-
             <!-- Botón cambiar modo -->
             <button @click="toggleUserType" class="btn btn-pine me-3">
               <i class="bi bi-arrow-repeat me-1"></i>
